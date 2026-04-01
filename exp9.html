@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Diffie-Hellman Key Exchange</title>
+</head>
+<body>
+<h2>Diffie-Hellman Key Exchange</h2>
+<script>
+// Function for modular exponentiation: (base^exp) % mod
+function power(base, exp, mod) {
+    let result = 1;
+    base = base % mod;
+    while (exp > 0) {
+        if (exp % 2 === 1) {
+            result = (result * base) % mod;
+        }
+        exp = Math.floor(exp / 2);
+        base = (base * base) % mod;
+    }
+    return result;
+}
+// Input values
+let P = parseInt(prompt("Enter a prime number (P):"));
+document.write("Value of P: " + P + "<br>");
+let G = parseInt(prompt("Enter a primitive root (G):"));
+document.write("Value of G: " + G + "<br>");
+// Private keys
+let a = parseInt(prompt("Enter Alice's private key (a):"));
+document.write("Alice's private key: " + a + "<br>");
+let b = parseInt(prompt("Enter Bob's private key (b):"));
+document.write("Bob's private key: " + b + "<br>");
+// Public keys
+let A = power(G, a, P);
+let B = power(G, b, P);
+// Shared secret keys
+let secretKeyAlice = power(B, a, P);
+let secretKeyBob = power(A, b, P);
+// Output
+document.write("Alice's public key (A): " + A + "<br>");
+document.write("Bob's public key (B): " + B + "<br>");
+document.write("Secret key (Alice): " + secretKeyAlice + "<br>");
+document.write("Secret key (Bob): " + secretKeyBob + "<br>");
+// Verification
+if (secretKeyAlice === secretKeyBob) {
+    document.write("<b>Key exchange successful! Shared key: " + secretKeyAlice + "</b>");
+} else {
+    document.write("<b>Key exchange failed!</b>");
+}
+</script>
+</body>
+</html>
